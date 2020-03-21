@@ -1,32 +1,74 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar app color="primary" dark>
+      <div class="d-flex align-center">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+       
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn to="/" text>
+        <span class="mr-2">Be Updated Covid-19</span>
+        <span>🦠</span>
+      </v-btn>
+      
+    </v-app-bar>
+ <v-navigation-drawer
+      v-model="drawer"
+      absolute
+     
+      temporary
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+          <v-list-item v-if="this.$route.name != 'Home'">
+            <router-link to="/"> <v-list-item-title>🏠 Home</v-list-item-title></router-link>
+          </v-list-item>
+
+          <v-list-item>
+             <router-link to="/news"><v-list-item-title>📰 News</v-list-item-title></router-link>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+    <v-content>
+    
+      <router-view />
+    </v-content>
+  </v-app>
 </template>
 
+
+
+<script>
+  export default {
+
+     name: "App",
+    data: () => ({
+      drawer: false,
+      group: null,
+    }),
+
+    watch: {
+      group () {
+        this.drawer = false
+      },
+    },
+    created(){
+     
+    }
+  }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.v-navigation-drawer--temporary {
+    z-index: 9999 !important;
 }
 </style>
