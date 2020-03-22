@@ -99,4 +99,8 @@ export default {
   font-size: 30px;
   margin-left: 5px;
 }
+.v-bottom-navigation.bottom-nav.v-item-group.theme--light.primary.white--text
+  a {
+  height: 100%;
+}
 </style>
