@@ -1,20 +1,109 @@
 <template>
-  <div>
-    <div ref="map" style="height: 84vh"></div>
-  </div>
+ <v-container class="text-center" v-if="!news">
+  <Loading />
+</v-container>
+  <v-container v-else>
+ 
+    <div >
+     <marquee behavior="scroll" direction="left" >
+     <h3 style="display:inline-block; color:#ce4b44">TODAY Update Every 1 Minute: </h3>
+     <v-chip
+      class="ma-2"
+      color="#527397"
+      outlined
+    >
+      <span left>🤒 🦠 </span>
+      Today № Infected {{globalStats.results[0].total_new_cases_today}}  
+    </v-chip>
+    <v-chip
+      class="ma-2"
+      color="black"
+      outlined
+      pill
+    >
+      
+      <span left>😔 </span>
+     Today № Deaths {{globalStats.results[0].total_new_deaths_today}}
+    </v-chip>
+     <h3 style="display:inline-block; color:#ce4b44">World Live Update Every 1 Minute: </h3>
+      <v-chip
+      class="ma-2"
+      color="#527397"
+      outlined
+    >
+      <span left>🤒 🦠 </span>
+      № Infected {{globalStats.results[0].total_cases}}  
+    </v-chip>
+   <v-chip
+      class="ma-2"
+      color="black"
+      outlined
+      pill
+    >
+      
+      <span left>😔 </span>
+      № Deaths {{globalStats.results[0].total_deaths}}
+    </v-chip>
+     <v-chip
+      class="ma-2"
+      color="#91c439"
+      outlined
+    >
+      <span left>💪 </span>
+       № Recovered {{globalStats.results[0].total_recovered}} 
+        <span right> ✅</span>
+    </v-chip>
+    <v-chip
+      class="ma-2"
+      color="#9191AC"
+      outlined
+      pill
+    >
+      
+      <span left>🧐 </span>
+      № Unresolved {{globalStats.results[0].total_unresolved}}
+    </v-chip>
+<v-chip
+      class="ma-2"
+      color="#527397"
+      outlined
+    >
+      <span left>🤒 🦠 </span>
+      № Active {{globalStats.results[0].total_active_cases}}
+    </v-chip>
+     <v-chip
+      class="ma-2"
+      color="red"
+      outlined
+    >
+      <span left>🚨 </span>
+      № Serious {{globalStats.results[0].total_serious_cases}}
+    </v-chip>
+      </marquee>
+
+    </div>
+
+
+    <div ref="map" style="height: 500px"></div>
+   
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import Loading from "../components/Loading.vue"
 export default {
   name: "Home",
-
+  components:{
+   Loading
+  },
+  
   data() {
     return {
       map: null,
-
+      globalStats: null,
       tileLayer: null,
-
+      interval:null,
       coutryCodes: {
         ad: {
           lat: "42.5000",
@@ -1007,7 +1096,7 @@ export default {
         className: "icon"
       });
       // Quick test with 5k markers:
-      console.log(today);
+console.log(today)
       today.data.forEach((country, i) => {
         if (
           country.countrycode.toLowerCase().length > 0 &&
@@ -1100,6 +1189,18 @@ export default {
       var dateStr = date + "/" + month + "/" + year;
 
       return dateStr;
+    },
+    getGlobalStats (){
+     
+        axios
+        .get(
+          "https://cors-anywhere.herokuapp.com/https://thevirustracker.com/free-api?global=stats"
+        )
+        .then(res => {
+         
+         this.globalStats = res.data
+          console.log(this.globalStats)
+        });
     }
   },
   created() {
@@ -1114,8 +1215,12 @@ export default {
         this.initLocation(dataIn);
       }, 200);
     }
+    this.getGlobalStats()
+    this.interval = setInterval(()=>{this.getGlobalStats()}, 60000);
   },
-  beforeDestroy() {}
+   beforeDestroy() {
+clearInterval(this.interval);
+   }
 };
 </script>
 <style>

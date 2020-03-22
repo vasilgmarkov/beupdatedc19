@@ -1,9 +1,12 @@
 <template>
-  <div class="country-chart">
+   <v-container class="text-center" v-if="loading">
+<Loading />
+</v-container>
+  <div class="country-chart" v-else>
  
         <div class="chart-container" >
-          <div class="alert alert-info" v-show="loading">
-            Loading...
+          <div class="alert alert-info" >
+       
           </div>
           <div v-show="chart != null">
             <canvas id="myChart"style="height:40vh; width:80vw" ></canvas>
@@ -15,8 +18,13 @@
 
 <script>
 import axios from "axios"
+import Loading from "../components/Loading.vue"
+
 export default {
   name: "CountryChart",
+  components:{
+    Loading
+  },
    props: ["code"],
   data() {
     return {
@@ -26,7 +34,7 @@ export default {
     temps: [],
     deaths:[],
     recovered:[],
-    loading: false,
+    loading: true,
     errored: false,
     imelineitems:[],
     country:""
@@ -629,6 +637,7 @@ export default {
           `https://cors-anywhere.herokuapp.com/https://thevirustracker.com/free-api?countryTimeline=${this.code}`
         )
         .then(res => {
+          this.loading = false
           this.imelineitems = res.data.timelineitems
           this.country = res.data.countrytimelinedata[0].info.title
           setTimeout(()=>{ this.getData() }, 1);
