@@ -84,6 +84,9 @@ export default {
 </script>
 
 <style>
+* {
+  font-family: "Montserrat", sans-serif;
+}
 .v-navigation-drawer--temporary,
 .bottom-nav {
   z-index: 9999 !important;

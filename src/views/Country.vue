@@ -16,7 +16,7 @@
       <v-col cols="4" sm="3">
         <p>{{countryInfo.countrydata[0].total_active_cases}}</p>
         <v-chip class="ma-2" color="#527397" outlined>
-          <span left>🤒 🦠</span>
+          <span left>🤒</span>
           № Active
         </v-chip>
       </v-col>
@@ -568,8 +568,8 @@ export default {
 };
 </script>
 <style>
-div > span {
-  font-size: 40px;
+div > span > span {
+  font-size: 10px;
 }
 .country p {
   margin: 0px;
