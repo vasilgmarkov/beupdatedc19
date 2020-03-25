@@ -16,7 +16,7 @@
       :headers="headers"
       :items="countries"
       :sort-by="['totalcases']"
-      :sort-desc="[ true,false]"
+      :sort-desc="[ true]"
       :search="search"
     >
       <template v-slot:item.countrylabel="{item}">
@@ -30,8 +30,24 @@
           <span>{{item.countrylabel}}</span>
         </router-link>
       </template>
+      <template v-slot:item.totalcases="{item}">
+        <span>{{item.totalcases != '' ? item.totalcases : 0}}</span>
+      </template>
+      <template v-slot:item.totalrecovered="{item}">
+        <span>{{item.totalrecovered != '' ? item.totalrecovered : 0}}</span>
+      </template>
+      <template v-slot:item.totaldeaths="{item}">
+        <span>{{item.totaldeaths != '' ? item.totaldeaths : 0}}</span>
+      </template>
+
+      <template v-slot:item.percent="{item}">
+        <span>{{item.totaldeaths!='' && item.totalcases != '' ?((item.totaldeaths / item.totalcases) * 100).toFixed(2): '0'}} %</span>
+      </template>
+      <template>
+        <span>h</span>
+      </template>
     </v-data-table>
-    <v-btn
+    <!-- <v-btn
       v-scroll="onScroll"
       v-show="fab"
       fab
@@ -43,7 +59,7 @@
       @click="toTop"
     >
       <v-icon>mdi-chevron-up</v-icon>
-    </v-btn>
+    </v-btn>-->
   </div>
 </template>
 
@@ -67,7 +83,8 @@ export default {
         },
         { text: "Confirmed", value: "totalcases" },
         { text: "Recovered", value: "totalrecovered" },
-        { text: "Deaths", value: "totaldeaths" }
+        { text: "Deaths", value: "totaldeaths" },
+        { text: "%Deaths", value: "percent" }
       ],
       countries: JSON.parse(localStorage.getItem("data")).data.splice(0, 179)
     };
@@ -98,7 +115,19 @@ span {
 .v-data-footer {
   display: none;
 }
+td > span {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
 td:nth-child(2n) .v-data-table__mobile-row__cell {
+  background-color: #527397;
+  color: white;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+}
+
+td.text-start:nth-child(2) > span {
   background-color: #527397;
   color: white;
   border-radius: 5px;
@@ -110,9 +139,36 @@ td:nth-child(3n) .v-data-table__mobile-row__cell {
   border-radius: 5px;
   padding: 0px 5px 0px 5px;
 }
+td.text-start:nth-child(3) > span {
+  background-color: #91c439;
+  color: white;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+}
 td:nth-child(4n) .v-data-table__mobile-row__cell {
   background-color: #ce4b44;
   color: white;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+}
+td.text-start:nth-child(4) > span {
+  background-color: #ce4b44;
+  color: white;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+}
+
+td:last-child .v-data-table__mobile-row__cell {
+  border-radius: 5px;
+  border: 1px solid #ce4b44;
+  color: #ce4b44;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+}
+td.text-start:last-child > span {
+  border-radius: 5px;
+  border: 1px solid #ce4b44;
+  color: #ce4b44;
   border-radius: 5px;
   padding: 0px 5px 0px 5px;
 }

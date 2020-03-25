@@ -1103,19 +1103,20 @@ export default {
     }
   },
   created() {
-    if (JSON.parse(localStorage.getItem("date")) != this.getDate()) {
-      this.getData();
-      console.log("New");
-    } else {
-      console.log("LocalStorage");
-      let dataIn = JSON.parse(localStorage.getItem("data"));
-      console.log(dataIn);
-      setTimeout(() => {
-        this.initLocation(dataIn);
-      }, 200);
-    }
-  },
-  beforeDestroy() {}
+    localStorage.clear();
+    this.getData();
+    // if (JSON.parse(localStorage.getItem("date")) != this.getDate()) {
+    //   this.getData();
+    //   console.log("New");
+    // } else {
+    //   console.log("LocalStorage");
+    //   let dataIn = JSON.parse(localStorage.getItem("data"));
+    //   console.log(dataIn);
+    //   setTimeout(() => {
+    //     this.initLocation(dataIn);
+    //   }, 200);
+    // }
+  }
 };
 </script>
 <style>
