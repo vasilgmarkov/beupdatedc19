@@ -5,30 +5,32 @@
   <v-container class="text-center country" v-else>
     <div>
       <img
-        :src="`https://www.countryflags.io/${countryInfo.countrydata[0].info.code.toLowerCase()}/flat/32.png`"
+        :src="
+          `https://www.countryflags.io/${countryInfo.countrydata[0].info.code.toLowerCase()}/flat/32.png`
+        "
       />
       <p>
-        {{countryInfo.countrydata[0].info.title}} has
-        <b>{{countryInfo.countrydata[0].total_cases}}</b> confirmed cases.
+        {{ countryInfo.countrydata[0].info.title }} has
+        <b>{{ countryInfo.countrydata[0].total_cases }}</b> confirmed cases.
       </p>
     </div>
     <v-row class="justify-center">
       <v-col cols="4" sm="3">
-        <p>{{countryInfo.countrydata[0].total_active_cases}}</p>
+        <p>{{ countryInfo.countrydata[0].total_active_cases }}</p>
         <v-chip class="ma-2" color="#527397" outlined>
           <span left>🤒</span>
           № Active
         </v-chip>
       </v-col>
       <v-col cols="4" sm="3">
-        <p>➕{{countryInfo.countrydata[0].total_new_cases_today}}</p>
+        <p>➕{{ countryInfo.countrydata[0].total_new_cases_today }}</p>
         <v-chip class="ma-2" color="primary" outlined>
           <span left>📆</span>
           № Today
         </v-chip>
       </v-col>
       <v-col cols="4" sm="3">
-        <p>{{countryInfo.countrydata[0].total_serious_cases}}</p>
+        <p>{{ countryInfo.countrydata[0].total_serious_cases }}</p>
         <v-chip class="ma-2" color="red" outlined>
           <span left>🚨</span>
           № Serious
@@ -36,21 +38,21 @@
       </v-col>
 
       <v-col cols="6" sm="6">
-        <p>{{countryInfo.countrydata[0].total_deaths}}</p>
+        <p>{{ countryInfo.countrydata[0].total_deaths }}</p>
         <v-chip class="ma-2" color="primary" outlined pill>
           № Deaths
           <span right>😔</span>
         </v-chip>
       </v-col>
       <v-col cols="6" sm="6">
-        <p>➕{{countryInfo.countrydata[0].total_new_deaths_today}}</p>
+        <p>➕{{ countryInfo.countrydata[0].total_new_deaths_today }}</p>
         <v-chip class="ma-2" color="deep-purple accent-4" outlined>
           № Today
           <span right>📆</span>
         </v-chip>
       </v-col>
       <v-col cols="12" sm="12">
-        <p>{{countryInfo.countrydata[0].total_recovered}}</p>
+        <p>{{ countryInfo.countrydata[0].total_recovered }}</p>
         <v-chip class="ma-2" color="#91c439" outlined>
           <span left>💪</span>
           № Recovered
@@ -59,6 +61,9 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="12">
+        <CountryRegions :countryName="countryInfo.countrydata[0].info.title" />
+      </v-col>
       <v-col cols="12">
         <CountryChart :code="code" />
       </v-col>
@@ -70,13 +75,14 @@
 import CountryChart from "../components/CountryChart.vue";
 import axios from "axios";
 import Loading from "../components/Loading.vue";
-
+import CountryRegions from "../components/CountryRegions";
 export default {
   name: "Country",
   props: ["code"],
   components: {
     CountryChart,
-    Loading
+    Loading,
+    CountryRegions
   },
   data() {
     return {
@@ -575,4 +581,3 @@ div > span > span {
   margin: 0px;
 }
 </style>
-

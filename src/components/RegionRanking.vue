@@ -5,7 +5,7 @@
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search Country"
+          label="Search Region"
           single-line
           hide-details
         ></v-text-field>
@@ -14,23 +14,15 @@
     <v-data-table
       :disable-pagination="true"
       :headers="headers"
-      :items="countries"
+      :items="data"
       :sort-by="['today_confirmed']"
       :sort-desc="[true]"
       :search="search"
     >
       <template v-slot:item.name="{ item }">
-        <router-link :to="`/country/${getFlag(item.name).toUpperCase()}`">
-          <v-icon v-if="imgError == getFlag(item.name)">mdi-eye-off</v-icon>
-          <img
-            v-else
-            :src="
-              `https://www.countryflags.io/${getFlag(item.name)}/flat/32.png`
-            "
-            @error="onImgError(getFlag(item.name))"
-          />
-          <span>{{ item.name }}</span>
-        </router-link>
+        <!-- <router-link :to="`/country/${item.name}`"> -->
+        <span class="region-name">{{ item.name }}</span>
+        <!-- </router-link> -->
       </template>
       <template v-slot:item.today_confirmed="{ item }">
         <span>{{ item.today_confirmed != "" ? item.today_confirmed : 0 }}</span>
@@ -43,14 +35,14 @@
       </template>
 
       <template v-slot:item.percent="{ item }">
-        <span
-          >{{
-            item.today_deaths != "" && item.today_confirmed != ""
-              ? ((item.today_deaths / item.today_confirmed) * 100).toFixed(2)
-              : "0"
+        <span>
+          {{
+          item.today_deaths != "" && item.today_confirmed != ""
+          ? ((item.today_deaths / item.today_confirmed) * 100).toFixed(2)
+          : "0"
           }}
-          %</span
-        >
+          %
+        </span>
       </template>
       <template>
         <span>h</span>
@@ -71,10 +63,10 @@
     </v-btn>-->
   </div>
 </template>
-
 <script>
-import { mapGetters } from "vuex";
 export default {
+  name: "RegionRanking",
+  props: ["data"],
   data() {
     return {
       fab: false,
@@ -82,7 +74,7 @@ export default {
       imgError: null,
       headers: [
         {
-          text: "Country",
+          text: "Region",
           align: "start",
           sortable: false,
           value: "name"
@@ -94,67 +86,11 @@ export default {
       ]
       //countries: JSON.parse(localStorage.getItem("data")).data.splice(0, 179)
     };
-  },
-  methods: {
-    onImgError(code) {
-      console.log("In error");
-
-      this.imgError = code;
-    },
-    onScroll(e) {
-      if (typeof window === "undefined") return;
-      const top = window.pageYOffset || e.target.scrollTop || 0;
-      this.fab = top > 20;
-    },
-    toTop() {
-      this.$vuetify.goTo(0);
-    },
-    getDate() {
-      var d = new Date();
-
-      var date = d.getUTCDate();
-      var month = d.getUTCMonth() + 1; // Since getUTCMonth() returns month from 0-11 not 1-12
-      var year = d.getUTCFullYear();
-
-      //var dateStr = date + "/" + month + "/" + year;
-      var dateStr =
-        year + "-" + (month < 10 ? "0" + month : month) + "-" + date;
-
-      return dateStr;
-    },
-    getFlag(name) {
-      let geoCountry = this.countryCode.find(
-        countryLook =>
-          countryLook.country == name ||
-          countryLook.alpha2 == name ||
-          countryLook.country.includes(name)
-      );
-
-      return geoCountry ? geoCountry.alpha2.toLowerCase() : "";
-    }
-  },
-  computed: {
-    ...mapGetters(["countryCode", "readData"]),
-    countries() {
-      let countriesArray = [];
-      if (this.readData) {
-        let countriesToLoop = this.readData;
-        for (let country in countriesToLoop) {
-          countriesArray.push(countriesToLoop[country]);
-        }
-      }
-
-      return countriesArray;
-    }
   }
 };
 </script>
 
 <style>
-img,
-span {
-  vertical-align: middle;
-}
 .v-data-footer {
   display: none;
 }
@@ -217,5 +153,9 @@ td.text-start:last-child > span {
 }
 div .v-btn--fixed.v-btn--bottom {
   bottom: 75px;
+}
+.region-name {
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>
