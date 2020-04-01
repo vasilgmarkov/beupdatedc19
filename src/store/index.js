@@ -2047,7 +2047,7 @@ export default new Vuex.Store({
 
       //var dateStr = date + "/" + month + "/" + year;
       let dateStr =
-        year + "-" + (month < 10 ? "0" + month : month) + "-" + date;
+        year + "-" + (month < 10 ? "0" + month : month) + "-" + (date < 10 ? "0" + date : date);
       axios
         .get(
           `https://cors-anywhere.herokuapp.com/https://api.covid19tracking.narrativa.com/api/${dateStr}`
