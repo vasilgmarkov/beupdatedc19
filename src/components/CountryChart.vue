@@ -30,6 +30,7 @@ export default {
       temps: [],
       deaths: [],
       recovered: [],
+      daily:[],
       loading: true,
       errored: false,
       imelineitems: [],
@@ -51,6 +52,7 @@ export default {
           this.recovered.push(ordered[key].total_recoveries);
           this.temps.push(ordered[key].total_cases);
           this.deaths.push(ordered[key].total_deaths);
+          this.daily.push(ordered[key].new_daily_cases);
         }
       }
 
@@ -81,6 +83,13 @@ export default {
               borderColor: "#91c439",
               fill: false,
               data: this.recovered
+            },
+            {
+              label: "Daily Infected",
+              backgroundColor: "#23364a",
+              borderColor: "#23364a",
+              fill: false,
+              data: this.daily
             }
           ]
         },

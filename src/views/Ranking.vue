@@ -38,19 +38,19 @@
       <template v-slot:item.today_recovered="{ item }">
         <span>{{ item.today_recovered != "" ? item.today_recovered : 0 }}</span>
       </template>
-      <template v-slot:item.totaldeaths="{ item }">
-        <span>{{ item.totaldeaths != "" ? item.totaldeaths : 0 }}</span>
+      <template v-slot:item.today_deaths="{ item }">
+        <span>{{ item.today_deaths != "" ? item.today_deaths : 0 }}</span>
       </template>
 
       <template v-slot:item.percent="{ item }">
-        <span
-          >{{
-            item.today_deaths != "" && item.today_confirmed != ""
-              ? ((item.today_deaths / item.today_confirmed) * 100).toFixed(2)
-              : "0"
+        <span>
+          {{
+          item.today_deaths != "" && item.today_confirmed != ""
+          ? ((item.today_deaths / item.today_confirmed) * 100).toFixed(2)
+          : "0"
           }}
-          %</span
-        >
+          %
+        </span>
       </template>
       <template>
         <span>h</span>
