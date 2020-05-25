@@ -92,7 +92,7 @@ export default {
           : lang;
       axios
         .get(
-          `https://newsapi.org/v2/top-headlines?q=${type}&language=${typeLang}&pageSize=100&sortBy=publishedAt&apiKey=bdfa214239164327bc483764a37373ec`
+          `https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/top-headlines?q=${type}&language=${typeLang}&pageSize=100&sortBy=publishedAt&apiKey=bdfa214239164327bc483764a37373ec`
         )
         .then(res => {
           this.news = res.data;
